@@ -36,12 +36,12 @@ async function run() {
       body.createAt =new Date();
       //console.log(body);
       const result = JobsCollections.insertOne(body);
-      if (resultinsertedId){
+      if (result.insertedId){
         return res.status(200).send(result);
       }  else {
         return res.status(404).send({
           Message : "can not insert! try again later",
-          status:false        // yt time 1:33 , post data with ui
+          status:false        // yt time 1:32 , post data with ui
         })
       }
 
@@ -55,6 +55,12 @@ async function run() {
       res.send(jobs);
     })
 
+    //get jobs by email
+    app.get("/myjobs/:email",async(req,res) =>{
+      console.log(req.params.email)
+      const jobs= await JobsCollections.find({postedBy : req.params.email}).toArray();
+      res.send(jobs)
+    })
 
 
 
