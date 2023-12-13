@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@job-portal.cs6cati.mongodb.net/?retryWrites=true&w=majority`  ;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -34,7 +34,7 @@ async function run() {
     app.post("/post-job" ,async(req,res)=>{
       const body = req.body ;
       body.createAt =new Date();
-      //console.log(body);
+    
       const result = JobsCollections.insertOne(body);
       if (result.insertedId){
         return res.status(200).send(result);
@@ -61,6 +61,16 @@ async function run() {
       const jobs= await JobsCollections.find({postedBy : req.params.email}).toArray();
       res.send(jobs)
     })
+
+
+    //delete a job
+    app.delete("/job/:id",async(req,res)=>{
+      const id =req.params.id ;
+      const filter= { _id: new ObjectId(id)}
+      const result=await JobsCollections.deleteOne(filter); //tset chenged id replaced by filter
+      res.send(result); 
+    })
+
 
 
 
