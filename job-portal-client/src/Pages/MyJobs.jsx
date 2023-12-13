@@ -10,9 +10,10 @@ const MyJobs = () => {
         setIsLoading(true);
         fetch(`https://hire-all.onrender.com/all-jobs`).then(res => res.json()).then(data => {
             setJobs(data)
+            setIsLoading(false);
         })
 
-    }, [])
+    }, [searchText])
     const handleSearch = () => {
         const filter = jobs.filter((job) => job.jobTitle.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
         //console.log(filter);
@@ -91,6 +92,45 @@ const MyJobs = () => {
 
                                     </tr>
                                 </thead>
+                                        
+
+                                {
+                                    isLoading ? (<div className="flex items-center justify-center h-20">
+                                        <p>Loading......</p></div>):(<tbody>
+                                     {jobs.map((job,index)=> (
+                                         <tr   key={index}>
+                                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                                             {index + 1}
+                                         </th>
+                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                                             {job.jobTitle}
+                                         </td>
+                                         <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                             {job.companyName}
+                                         </td>
+                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                             
+                                             ${job.minPrice}-${job.maxPrice}
+                                         </td>
+                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                           <button><Link to={`/edit-job/${job?._id}`}>Edit
+                                           </Link></button>
+                                         </td>
+                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                             
+                                          <button onClick={()=> handleDelete(job._id)} className="bg-red-700 py-2 px-6 text-white rounded-sm">Delete</button>
+                                         </td>
+                                     </tr>
+                                     ))
+                                     }
+
+                                   
+                                
+                                </tbody>)
+                                }
+
+
+
 
                                 <tbody>
                                      {jobs.map((job,index)=> (
