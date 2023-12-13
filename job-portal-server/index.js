@@ -69,7 +69,7 @@ async function run() {
       const filter= {
           _id:new ObjectId(id)}
       const result=await JobsCollections.deleteOne(filter);
-      res.send(result);
+      res.send(result); 
     })
 
 
