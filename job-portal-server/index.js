@@ -66,9 +66,8 @@ async function run() {
     //delete a job
     app.delete("/job/:id",async(req,res)=>{
       const id =req.params.id ;
-      const filter= {
-          _id:new ObjectId(id)}
-      const result=await JobsCollections.deleteOne(filter);
+      const filter= { _id: new ObjectId(id)}
+      const result=await JobsCollections.deleteOne(filter); //tset chenged id replaced by filter
       res.send(result); 
     })
 

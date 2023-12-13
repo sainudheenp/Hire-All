@@ -22,7 +22,9 @@ const MyJobs = () => {
     }
     const handleDelete =(id)=>{
         console.log(id)
-        fetch(`https://hire-all.onrender.com/job/${id}`).then(res=>res.json).then(data => {
+        fetch(`https://hire-all.onrender.com/job/${id}`,{
+            method:"DELETE"
+        }).then(res=>res.json).then(data => {
             if(data.acknowledged=== true ){
                 alert("Deleted Successfully!!")
             }
